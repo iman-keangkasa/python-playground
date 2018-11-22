@@ -29,6 +29,11 @@ def looping():
             #print("x = 2 starts here")
 
 def strings_sum():
+    '''
+    This functions reads a stream of comma separated strings, s
+    convert them into numbers and add them up 
+    I use s.split(',')
+    '''
     s = '1.23,2.4,3.123'
     total = 0
     s=s.split(',')
@@ -39,7 +44,11 @@ def strings_sum():
     return s
 
 def strings_sum2():
-    
+    '''
+    This function uses a different approach where it reads
+    the string for comma separated string, s and add them 
+    up
+    '''
     def summing(string,total):
         total = float(string) + total
         return total
@@ -64,7 +73,7 @@ def strings_sum2():
             print(total)
             num = ''
 
-def finding_sqrt(x):
+def sqrt(x):
     '''
     I am implementing bisection searching algorithm
     in this function
@@ -74,15 +83,21 @@ def finding_sqrt(x):
     high = max(1.0,x)
     numGuesses = 0
     ans = (high+low)/2.0
+
+    print('{0:^20}{1:^20}{2:^20}{3:^20}{4:^20}'.format(
+        'Trial','Low','High','Ans','Error/Epsilon'))
     
     while abs(ans**2 - x) >= epsilon:
-        print('Low: ', low, 'high: ', high, 'ans= ', ans)
         numGuesses += 1
+        
         if ans**2 < x:
             low = ans
         else:
             high = ans
         ans = (high + low)/2.0
+
+        print('{0:^20}{1:^20.2f}{2:^20.3f}{3:^20.3f}{4:^20.3f}'.format(
+            numGuesses, low, high, ans, abs(ans**2-x) ))
 
     print("Number of guesses: ",numGuesses)
    
@@ -98,12 +113,37 @@ def cube_root(x):
         sign = 1
     ans = (high+low)/2
     trials = 0
+    print('{0:^20}{1:^20}{2:^20}{3:^20}'.format('Trial','High','Low','Approximation'))
     while abs(ans**3 - abs_x) >= epsilon:
         trials += 1
-        print('Trial: ',trials,"High: ", sign*high, "Low: ", sign*low, "Ans: ", sign*ans)
         if ans**3 < abs_x:
             low = ans
         else:
             high = ans
         ans = (high + low)/2
+        print('{0:^20}{1:^20.3f}{2:^20.3f}{3:^20.3f}'.format(
+             trials,sign*high, sign*low, sign*ans))
+
+def newton_raphson(x):
+    """
+    Newton stated that: if you have a guess/approximation
+    guess - p(guess)/p'(guess)  is always better
+    """
+#    if x:
+#        print("Please enter a number")
+        
+#    def square_root(x):
+#        """
+#        Find square root x such that x**2-guess is within epsilon 0
+#        """
+    epsilon = 0.01
+    
+    guess = x/2
+    trial = 0
+    print('{0:^20}{1:^20}{2:^20}'.format('Trial', 'Guess', 'Error/epsilon'))
+    while abs(guess*guess - x) >= epsilon:
+        trial += 1
+        guess = guess - ((guess**2 -x) / (2*guess))
+
+        print('{0:^20}{1:^20.3f}{2:^20.3f}'.format(trial, guess, guess**2 - x ))
 
