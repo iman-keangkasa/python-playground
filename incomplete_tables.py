@@ -1,44 +1,39 @@
 '''
 This modules/programs make ASCII table
 '''
-# Parameters needed, decimal points, significant figures?
-# Rules: Makes content from the borders at least 1 characters away
+# TO-DO LIST
+# make tabling for dictionary
+# make tabling for 2D list / 2D tuples
+# make tabling for numpy arrays
 
-cell_width = 10
+def topBot(padding):
+    return '+{0:-^{1}}'.format("",padding) # +-----
 
-variables = 9
-topBot ='+{0:-^{1}}'.format("",padding) # +-----
-topBotEnd ='+'                          # +
-middle='|{0:^{1}}'.format(variables,padding)   # |    
-middleEnd ='|'                          # |
-
-def the_cell(element, width=20, decimal=0, numerical=False):
-    if numerical:
-        None
+def row_contents(variables, width=10, decimal=3, numeric=False):
+    if numeric:
+        for variable in variables:
+            if type(variable).__name__ == 'int':
+                print('|{0:^{1}}'.format(variable,width), end='')
+            if type(variable).__name__ == 'float':
+                print('|{0:^{1}.{2}f}'.format(variable, width, decimal), end='')
+        print('|')
     else:
-        return middle='|{0:^{1}}'.format(variables, width)
+        for variable in variables:
+            print('|{0:^{1}}'.format(variable,width), end='')
+        print('|')
 
-def end_tabling(cols):
-    print(cols*topBot + topBotEnd)
+def vertical_borders(cols,width):
+    print(cols*topBot(width), end='')
+    print('+')
 
-def tabling():
-    decimal_point = 2
-    padding = cell_width #padding gives the number of size of each box
-    cols = 9
-    rows = 3
+def table_header(the_list, table_width=10):
+    cols = len(the_list)
+    vertical_borders(cols, table_width)    
+    row_contents(the_list, table_width)  
+    vertical_borders(cols,table_width)
+
+def table_content(the_list, table_width=10, table_decimal=3):
+    cols = len(the_list)   
+    row_contents(the_list, table_width, table_decimal, True)
     
-    for row in range(rows):
-        for col in range(cols)
-        print(cols*topBot + topBotEnd)
-        print(cols*middle + middleEnd)
-   
-    end_tabling(cols)
-'''
-def table_header(header_list):
-    for col in range( len(header_list) ):
-        cell = the_cell(header_list[col], width = 10)
-        print(cell, end='')
-    print(middleEnd)
-    print(topBot, topBotEnd)
 
-'''
