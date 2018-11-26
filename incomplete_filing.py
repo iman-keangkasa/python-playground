@@ -5,3 +5,15 @@ This module is used to handle file:
 -reading
 -appending
 """
+
+def write():
+    ''''''    
+def read():
+    ''''''
+def copy():
+    ''''''
+def add():
+    ''''''
+def auto_rename():
+    ''''''
+
