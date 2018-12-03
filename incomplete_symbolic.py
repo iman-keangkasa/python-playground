@@ -3,7 +3,9 @@ This module explains how to use
 symbolic variables and the symbolic 
 modules
 '''
-from sympy import symbols, expand, init_printing
+
+from sympy import symbols, expand, init_printing, Eq
+
 def creates(lists):
     '''
     lists contains the names
@@ -52,6 +54,26 @@ def beautiful_prints():
     '''
     init_printing(use_unicode = True)
 
+
+def equates(a,b):
+    '''
+    create symbolic equalities
+    '''
+
+    return Eq(a,b)
+
+
+def equal_val(a,b):
+    '''
+    Test the similarity between two 
+    expression
+    Syntax:
+    equal_val(a,b)
+    
+    Returns bool value
+    '''
+    return a.equals(b)
+"""
 def integrates(expression):
     '''
     '''
@@ -77,3 +99,4 @@ def latex_it(expression):
 def solves(expression, root):
     '''
     '''
+"""
