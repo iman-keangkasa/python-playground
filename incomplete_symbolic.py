@@ -13,7 +13,7 @@ TODO:
     3/12/2018 stops at Powers and Special Functions
 '''
 
-from sympy import symbols, expand, factor, init_printing, Eq, simplify, sympify, lambdify, collect, cancel, apart, trigsimp, expand_trig
+from sympy import symbols, expand, factor, init_printing, Eq, simplify, sympify, lambdify, collect, cancel, apart, trigsimp, expand_trig, powsimp, expand_power_exp, expand_power_base, powdenest
 
 def creates(lists):
     '''
@@ -304,9 +304,51 @@ def expands_trig(expression):
     return expand_trig(expression)
 
 # powers #
+def powers():
+    '''
+    Power functions in sympy has limitation.
+    According to these identity:
+    (1) x**a * x**b = x**a+b
+    (2) x**a * y**a = (xy)**a
+    (3) (x**a)**b = x**(ab)
 
+    Identity (2) is only true when
+    x and y are nonegative and a is real
 
+    Identity (3) is true when 
+    b is an integer
+    
+    sympy.powersimp() applies (1) and (2)
+    from left to right. Simplifies an expression
 
+    sympy.expand_power_exp() and sympy.expand_power_base() 
+    applies identities (1) and (2). 
+    
+    expanse_power_base expand the power of base (eg x y)
+    expanse_power_exp expand the power of the exponet (x**a)**b = x**(ab)
+    
+    sympy.powdenest() applies identity (3) from left to right
+    '''
+def simplifies_power(expression):
+    '''
+    Invoke identity (1) and (2)
+    '''
+    return powsimp(expression)    
+
+def expands_power_base(expression):
+    '''
+    Invoke identity (1) and (2)
+    The function expand the power of the
+    base in the expression
+    '''
+    return expand_power_base(expression)
+
+def expands_power_exp(expression):
+    '''
+    Invoke identity (1) and (2)
+    The function expand the power of the
+    exponent of the expression
+    '''
 """
 def integrates(expression):
     '''
