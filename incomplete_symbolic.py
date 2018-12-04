@@ -183,6 +183,15 @@ def create_function(func):
     This function creates a function where
     func is a string containing an expression
     of the function
+
+    The pseudo-code:
+    (1) convert func string into sympy expression
+    (2) get the list of variables in func
+    (3) lambdify the function 
+
+    This is how I handle a string of expression into
+    mathematical expression using the python lambda
+    concept
     '''
     fsym = sympify(func)
     var_list = list(fsym.free_symbols)
@@ -224,7 +233,7 @@ def factors(expression):
     '''
     If symplify fails, try factor()
     syntax:
-    sympt.factor(expression)
+    sympy.factor(expression)
     '''
     if type(expression).__name__ == str:
         expression = sympify(expression)
@@ -257,7 +266,7 @@ def get_coeff(expression,variable,order):
 
 def cancels(expression):
     '''
-    sympy.cancel simplify a rational function into
+    sympy.cancel() simplify a rational function into
     a canonical form p/q
     '''
     return cancel(expression)

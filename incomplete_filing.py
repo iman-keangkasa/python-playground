@@ -4,6 +4,8 @@ This module is used to handle file:
 -writing
 -reading
 -appending
+
+data is the location (and name) of the text file
 """
 
 def write(data):
@@ -12,8 +14,6 @@ def write(data):
     use nameHandle=open('data', 'w')
     The same file name will have its content erased
     '''
-    nameHandle = open(data, 'w')
-    nameHandle.write('Micheal\t12\n')
     nameHandle.write('Greg\t13\n')
     nameHandle.close()
     nameHandle = open(data, 'r')
@@ -42,4 +42,21 @@ def add():
     '''
 def auto_rename():
     ''''''
+def replace_pattern(data,pattern1,pattern2):
+    '''
+    buggy the list of lines becomes just one line
 
+    data is the location/name of the file
+    pattern2 will replace pattern1
+    
+    
+    '''
+    fh = open(data, 'r')
+    lines = fh.readlines()
+    fh.close()
+    for index, line in enumerate(lines):
+        lines[index] = line.replace(pattern1, pattern2)
+    return lines
+    #fh = open(data, 'w')
+    #fh.writelines(lines)
+    fh.close()
