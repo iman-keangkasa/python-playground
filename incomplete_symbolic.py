@@ -13,7 +13,7 @@ TODO:
     3/12/2018 stops at Powers and Special Functions
 '''
 
-from sympy import symbols, expand, factor, init_printing, Eq, simplify, sympify, lambdify, collect, cancel, apart, trigsimp, expand_trig, powsimp, expand_power_exp, expand_power_base, powdenest
+from sympy import symbols, expand, factor, init_printing, Eq, simplify, sympify, lambdify, collect, cancel, apart, trigsimp, expand_trig, powsimp, expand_power_exp, expand_power_base, powdenest, expand_log, logcombine, factorial, binomial, combsimp, diff, Derivative
 
 def creates(lists):
     '''
@@ -349,6 +349,190 @@ def expands_power_exp(expression):
     The function expand the power of the
     exponent of the expression
     '''
+
+def exponentials_logarithms():
+    '''
+    There are two identities:
+    (1) log(x*y) = log(x) + log(y)
+    (2) log(x**n) = n*log(x)
+
+    Both requires x and y be real
+    Both x and y should be positive
+    and n should be real
+    '''
+
+def expands_log(expression):
+    '''
+    Uses sympy.expand_log() and
+    applies identity (1) and (2)
+    '''
+
+    return expand_log(expression)
+
+def combines_log(expression):
+    '''
+    Applies identities (1) and (2)
+    
+    This function uses sympy.logcombine() 
+    to combine a log expression.
+    '''
+    return logcombine(expression)
+
+def factorials(n):
+    '''
+    Represent the number of permutation
+    of n distinct
+    
+    This function uses sympy.factorial(n)
+    '''
+    return factorial(n)
+
+def binomials(n,k):
+    '''
+    Also noted as nCk,
+    that says from n items choose k
+
+    This function uses sympy.binomial()
+    '''
+    return binomial(n,k)
+
+def rewrites(expression,interms):
+    '''
+    this function takes in sympy expression
+    and invoke the rewrite method of
+    the sympy expression(object) to rewrite
+    it in terms of another function (interms)
+
+    expression is sympy object
+    interms is sympy object or string e.g: 'sin'
+    '''
+    return expression.rewrite(interms)
+
+def calculus():
+    '''
+    DERIVATIVE:
+    
+    diff() --- as a function or a method
+    Derivative() --- as a function
+    
+    Both compute the derivative but Derivative will
+    not evaluate the expression (only show notation) before invoking
+    the expression .doit() method
+    '''
+def diff_it(expression,respect_to, n=0, indefinite_n=False):
+    '''
+    this function uses diff in sympy
+    to evaluate the derivative of an expression
+
+    expression is a sympy object
+    respect_to should be a list of how the derivative
+    should be evaluated according to the
+    variable and order of the list
+    
+    BUGGY! INCOMPLETE COME BACK LATER
+
+    '''
+        
+    if type(respect_to).__name__ == 'Symbol':
+        if indefinite_n:
+            n = symbols('n')
+            print("Invoking indefinite n")
+            return expression.diff(respect_to,n)
+        else:
+            print("Invoking single differentiation")
+            return expression.diff(respect_to,n)
+
+    if type(respect_to).__name__ == 'list':
+        
+        #create a string from respect_to and orders list n
+        terminate = len(n)
+        args = ''
+        for index, element in enumerate(respect_to):
+            if index < terminate-1:
+                args = args + str(element) + ',' + str(n[index]) + ','
+            else:
+                args = args + str(element) + ',' + str(n[index])
+#        print(args)
+        return expression.diff(*eval(n))
+
+
+def integrates(expression):
+    '''
+    The integrates can be invoke as a function 
+    or a method
+    sympy.integrates(expression, (reference,lower_limit,upper_limit))
+    or
+    sympy.integrates(expression, reference)
+
+    The Integral function is used to integrate the indef
+    sympy.Integral( expression, (respect, lower_limit, upper_limit) )
+    or
+    sympy.Integral(expression, respect)
+
+    Integral function will only evaluate the integration by invoking the
+    doit() method.
+    '''
+
+def limits():
+    '''
+    the function is invoke by either
+    sympy.limit(expression, variable, limit, direction)
+    direction takes in the value '+' or '-'
+    
+    sympy.Limit(expression, variable, limit, direction) 
+    will not evaluate the limit until the doit() method
+    is invoke
+    '''
+
+def series_():
+    '''
+    To compute the asymptotic series expansions of functions
+    around a point we use sympy object method series() to
+    a function or an expression
+   
+    Syntax:
+    object.series(x, x0, n) where x0 is the point of interest
+    n is the order of x**n 
+    the default is x0=0 and n=6
+     
+    You would get a landau O(x**4) which says that
+    terms greater than or equal to x**4 will be omitted.
+    To remove the landau notation: 
+    
+    object.series(x,0,4).remove0()
+    
+    '''
+
+def differentiates_finite():
+    '''
+    sympy.differentiate_finite() evaluate the finite
+    difference 
+    say. The syntax:
+
+    f, g = symbols('f g', cls=Function)
+    
+    differentiate_finite(f(x)*g(x))
+    '''
+
+def approximates_derivative():
+    '''
+    Here we use step-size 1:
+    
+    f = sympy.Function('f')
+    dfdx = f(x).diff(x)
+    dfdx.as_finite_difference()
+    
+    To use arbitrary steps(possibly containing symbolic expression):
+
+    f = Function('f')
+    d2fdx2 = f(x).diff(x,2)
+    h = Symbol('h')
+    d2fdx2.as_finite_difference([-3*h,-h,2*h])
+
+    '''
+#SOLVE
+
+
 """
 def integrates(expression):
     '''
