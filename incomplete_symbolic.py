@@ -425,12 +425,7 @@ def diff_it(expression,respect_to, n=0, indefinite_n=False):
     to evaluate the derivative of an expression
 
     expression is a sympy object
-    respect_to should be a list of how the derivative
-    should be evaluated according to the
-    variable and order of the list
-    
-    BUGGY! INCOMPLETE COME BACK LATER
-
+    respect_to should be a list of how the derivative.
     '''
         
     if type(respect_to).__name__ == 'Symbol':
@@ -445,15 +440,11 @@ def diff_it(expression,respect_to, n=0, indefinite_n=False):
     if type(respect_to).__name__ == 'list':
         
         #create a string from respect_to and orders list n
-        terminate = len(n)
-        args = ''
+        
+        
         for index, element in enumerate(respect_to):
-            if index < terminate-1:
-                args = args + str(element) + ',' + str(n[index]) + ','
-            else:
-                args = args + str(element) + ',' + str(n[index])
-#        print(args)
-        return expression.diff(*eval(n))
+            expression = expression.diff(element)
+        return expression
 
 
 def integrates(expression):
