@@ -548,7 +548,7 @@ def solves(expression, solve_for):
 
     return solve(expression, solve_for)
 
-def linsolve_it():
+def linsolve_it(system,solve_for,result_type='list'):
     '''
     This function use sympy.linsolve() to solve
     linear system of eqns
@@ -563,10 +563,27 @@ def linsolve_it():
         M=sympy.Matrix(((1,1,-2),(1,-2,-4)))
         system = A, b = M[:,:-1], M[:,-1]
         linsolve(system, x, y, z)
+
+        linsolve will give answers in the form
+        of a set:
+        {(-8/3,2/3)}
+
+        where x = -8/3
+        and   y = 2/3
+
+    this function would return a list of solution
+
+    buggy
     '''
-    
-    
-    
+    sol =list( linsolve(system, solve_for) )
+    solution_list = [ sol[0][0], sol[0][1] ]
+    if result_type == 'list':
+        
+        return solution_list
+    if result_type == 'dict':
+       
+        solution_dict = dict(zip(solve_for,solution_list))
+        return solution_dict
     
 def creates_matrix(the_list, rows, cols):
     '''
