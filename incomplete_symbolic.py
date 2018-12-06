@@ -13,7 +13,7 @@ TODO:
     3/12/2018 stops at Powers and Special Functions
 '''
 
-from sympy import symbols, expand, factor, init_printing, Eq, simplify, sympify, lambdify, collect, cancel, apart, trigsimp, expand_trig, powsimp, expand_power_exp, expand_power_base, powdenest, expand_log, logcombine, factorial, binomial, combsimp, diff, Derivative
+from sympy import symbols, expand, factor, init_printing, Eq, simplify, sympify, lambdify, collect, cancel, apart, trigsimp, expand_trig, powsimp, expand_power_exp, expand_power_base, powdenest, expand_log, logcombine, factorial, binomial, combsimp, diff, Derivative, solveset, linsolve, Matrix, nonlinsolve, sqrt, Lambda, Mod, ImageSet, FiniteSet, solve, roots, dsolve, zeros,eye
 
 def creates(lists):
     '''
@@ -419,6 +419,7 @@ def calculus():
     not evaluate the expression (only show notation) before invoking
     the expression .doit() method
     '''
+
 def diff_it(expression,respect_to, n=0, indefinite_n=False):
     '''
     this function uses diff in sympy
@@ -521,8 +522,68 @@ def approximates_derivative():
     d2fdx2.as_finite_difference([-3*h,-h,2*h])
 
     '''
-#SOLVE
+#SOLVER
 
+def solveset_it(expression, solve_for, equals_to=0):
+    '''
+    Syntax for solveset:
+    sympy.solveset(sympy.Eq(expression,equals_to, solve_for, domain=S.Complexes)
+    or
+    if expr = expression - equals_to:
+    sympy.solveset(expr,solve_for,domain=S.Reals)
+    
+    or simply:
+    sympy.solveset(expr,solve_for)
+    '''
+    if equals_to == 0:
+        return solveset(expression,solve_for)
+    else:
+        return solveset(Eq(expression,equals_to),solve_for)
+
+def solves(expression, solve_for):
+    '''
+    This function uses sympy.solve(expression,solve_for)
+    it returns the solution and its multiplicity
+    '''
+
+    return solve(expression, solve_for)
+
+def linsolve_it():
+    '''
+    This function use sympy.linsolve() to solve
+    linear system of eqns
+    Three forms we can use:
+    (1) list of eqn:
+        linsolve([x+y-2,x-2y-4],(x,y)]
+    
+    (2) Using sympy.Matrix()
+        linsolve(sympy.Matrix(([1,1,-2],[1,-2,-4])), (x,y))
+    
+    (3) Using A*x = b form:
+        M=sympy.Matrix(((1,1,-2),(1,-2,-4)))
+        system = A, b = M[:,:-1], M[:,-1]
+        linsolve(system, x, y, z)
+    '''
+    
+    
+    
+    
+def creates_matrix(the_list, rows, cols):
+    '''
+    I use this function to create a matrix
+    from a list of variables.
+    The variable list should has the same
+    number of rows*cols so that
+    I can reshape it into a matrix dim(rows,cols)
+    '''
+    mat = zeros(rows,cols)
+    if rows*cols == len(the_list):
+        #for variable in the_list:
+        for row in range(rows):
+            for col in range(cols):
+                #print(col+row*cols)
+                mat[row,col] = the_list[col + row*cols]
+    return mat
 
 """
 def integrates(expression):
