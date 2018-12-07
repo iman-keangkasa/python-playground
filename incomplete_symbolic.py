@@ -10,10 +10,14 @@ TODO:
     for partial_decomp find a way to isolate 
     each terms from the result
 
-    3/12/2018 stops at Powers and Special Functions
+    get_terms function is not complete. Please look into it
+
+    solve all function with keyword buggy
+
+    create a function to find the root of a polynomial function
 '''
 
-from sympy import symbols, expand, factor, init_printing, Eq, simplify, sympify, lambdify, collect, cancel, apart, trigsimp, expand_trig, powsimp, expand_power_exp, expand_power_base, powdenest, expand_log, logcombine, factorial, binomial, combsimp, diff, Derivative, solveset, linsolve, Matrix, nonlinsolve, sqrt, Lambda, Mod, ImageSet, FiniteSet, solve, roots, dsolve, zeros,eye
+from sympy import symbols, expand, factor, init_printing, Eq, simplify, sympify, lambdify, collect, cancel, apart, trigsimp, expand_trig, powsimp, expand_power_exp, expand_power_base, powdenest, expand_log, logcombine, factorial, binomial, combsimp, diff, Derivative, solveset, linsolve, Matrix, nonlinsolve, sqrt, Lambda, Mod, ImageSet, FiniteSet, solve, roots, dsolve, zeros,eye, integrate, Integral, nonlinsolve
 
 def creates(lists):
     '''
@@ -72,6 +76,13 @@ def beautiful_prints():
 def equates(a,b):
     '''
     create symbolic equalities
+    The expression after Eq() is called will have 
+    right-hand side
+    left-hand side
+    
+    to separate expression = Eq(eq1,eq2)
+    expression.lhs for left-hand side
+    expression.rhs for right-hand side
     '''
 
     return Eq(a,b)
@@ -108,7 +119,8 @@ def substitutes_if(a,the_if):
     '''
     Substitute an expression with certain rules
     the_if is a comprehension list
-    say 
+    say
+
     the_if = [(x**i,y**i) for i in range(5) if i%2 == 0]
     '''
     return a.subs(the_if)
@@ -448,13 +460,13 @@ def diff_it(expression,respect_to, n=0, indefinite_n=False):
         return expression
 
 
-def integrates(expression):
+def integrates(expression,respect_to, lower=None, upper=None, definite= True):
     '''
     The integrates can be invoke as a function 
     or a method
-    sympy.integrates(expression, (reference,lower_limit,upper_limit))
+    sympy.integrate(expression, (reference,lower_limit,upper_limit))
     or
-    sympy.integrates(expression, reference)
+    sympy.integrate(expression, reference)
 
     The Integral function is used to integrate the indef
     sympy.Integral( expression, (respect, lower_limit, upper_limit) )
@@ -463,10 +475,25 @@ def integrates(expression):
 
     Integral function will only evaluate the integration by invoking the
     doit() method.
-    '''
 
+    Syntax for integrates
+    integrates(expression, respect_to, lower=None, upper=None, definite=True)
+    '''
+    
+    if definite:
+        if type(lower).__name__ == 'NoneType':
+            return integrate(expression, respect_to)
+        else:
+            return integrate(expression, (respect_to,lower,upper))
+    else:
+        if type(lower).__name__ == 'NoneType':
+            return Integral(expression, respect_to)
+        else:
+            return Integral(expression, (respect_to,lower,upper))
+    
 def limits():
     '''
+
     the function is invoke by either
     sympy.limit(expression, variable, limit, direction)
     direction takes in the value '+' or '-'
@@ -540,7 +567,7 @@ def solveset_it(expression, solve_for, equals_to=0):
     else:
         return solveset(Eq(expression,equals_to),solve_for)
 
-def solves(expression, solve_for):
+def solve_it(expression, solve_for):
     '''
     This function uses sympy.solve(expression,solve_for)
     it returns the solution and its multiplicity
@@ -557,9 +584,12 @@ def linsolve_it(system,solve_for,result_type='list'):
         linsolve([x+y-2,x-2y-4],(x,y)]
     
     (2) Using sympy.Matrix()
-        linsolve(sympy.Matrix(([1,1,-2],[1,-2,-4])), (x,y))
+        linsolve( sympy.Matrix(([1,1,-2],[1,-2,-4])), (x,y))
     
-    (3) Using A*x = b form:
+    (3) Using A*x = b form: 
+    
+        (carefull with this form b does not need to be inverted)
+    
         M=sympy.Matrix(((1,1,-2),(1,-2,-4)))
         system = A, b = M[:,:-1], M[:,-1]
         linsolve(system, x, y, z)
@@ -573,7 +603,7 @@ def linsolve_it(system,solve_for,result_type='list'):
 
     this function would return a list of solution
 
-    buggy
+    buggy: not generalized for more than one variables
     '''
     sol =list( linsolve(system, solve_for) )
     solution_list = [ sol[0][0], sol[0][1] ]
@@ -601,6 +631,46 @@ def creates_matrix(the_list, rows, cols):
                 #print(col+row*cols)
                 mat[row,col] = the_list[col + row*cols]
     return mat
+
+def nonlinsolve_it(system,solve_for,result_type = 'list'):
+    '''
+    To solve nonlinear equations use sympy.nonlinsolve(system, variables)
+    similar to sympy.linsolve
+    
+    For nonlinear system, an infinitely many solution means it
+    has POSITIVE DIMENSIONAL SYSTEM
+
+    buggy : not generalized for more than one unknown
+    '''
+
+    sol =list( nonlinsolve(system, solve_for) )
+    solution_list = [ sol[0][0], sol[0][1] ]
+    
+    if result_type == 'list':
+        
+        return solution_list
+    if result_type == 'dict':
+       
+        solution_dict = dict(zip(solve_for,solution_list))
+        return solution_dict
+    if result_type == 'raw':
+        return nonlinsolve(system, solve_for)
+
+def get_terms(expression,result_type='list'):
+    '''
+    this is an attempt to get the terms in
+    a polynomial equations
+
+    
+    if result_type == 'list':
+        terms=expression.args
+        term_count = len(terms)
+        for 
+
+    still buggy
+    '''
+
+
 
 """
 def integrates(expression):
