@@ -17,7 +17,7 @@ TODO:
     create a function to find the root of a polynomial function
 '''
 
-from sympy import symbols, expand, factor, init_printing, Eq, simplify, sympify, lambdify, collect, cancel, apart, trigsimp, expand_trig, powsimp, expand_power_exp, expand_power_base, powdenest, expand_log, logcombine, factorial, binomial, combsimp, diff, Derivative, solveset, linsolve, Matrix, nonlinsolve, sqrt, Lambda, Mod, ImageSet, FiniteSet, solve, roots, dsolve, zeros,eye, integrate, Integral, nonlinsolve
+from sympy import symbols, expand, factor, init_printing, Eq, simplify, sympify, lambdify, collect, cancel, apart, trigsimp, expand_trig, powsimp, expand_power_exp, expand_power_base, powdenest, expand_log, logcombine, factorial, binomial, combsimp, diff, Derivative, solveset, linsolve, Matrix, nonlinsolve, sqrt, Lambda, Mod, ImageSet, FiniteSet, solve, roots, dsolve, zeros,eye, integrate, Integral, nonlinsolve, dsolve
 
 def creates(lists):
     '''
@@ -670,8 +670,23 @@ def get_terms(expression,result_type='list'):
     still buggy
     '''
 
+def dsolve_it(expression, function):
+    '''
+    dsolve uses a function generated from:
+    f = sympy.symbols('f', cls=Function)
+    f(x)
+    or:
+    f =sympy.Function('f')
 
-
+    expression is a differential equation
+    generated from:
+    diffeq = sympy.Eq(f(x).diff(x),sin(x) )
+    
+    the solution would have C1 to Cn as the
+    coefficient values which 
+    
+    '''
+    return dsolve(expression, function)    
 """
 def integrates(expression):
     '''
