@@ -15,9 +15,16 @@ TODO:
     solve all function with keyword buggy
 
     create a function to find the root of a polynomial function
+
+    Finish matrix part
+
+Numerically, a very small value can 
+be chopped off using chop=True flag 
+in evalf() method
+eva
 '''
 
-from sympy import symbols, expand, factor, init_printing, Eq, simplify, sympify, lambdify, collect, cancel, apart, trigsimp, expand_trig, powsimp, expand_power_exp, expand_power_base, powdenest, expand_log, logcombine, factorial, binomial, combsimp, diff, Derivative, solveset, linsolve, Matrix, nonlinsolve, sqrt, Lambda, Mod, ImageSet, FiniteSet, solve, roots, dsolve, zeros,eye, integrate, Integral, nonlinsolve, dsolve
+from sympy import symbols, expand, factor, init_printing, Eq, simplify, sympify, lambdify, collect, cancel, apart, trigsimp, expand_trig, powsimp, expand_power_exp, expand_power_base, powdenest, expand_log, logcombine, factorial, binomial, combsimp, diff, Derivative, solveset, linsolve, Matrix, nonlinsolve, sqrt, Lambda, Mod, ImageSet, FiniteSet, solve, roots, dsolve, zeros,eye, integrate, Integral, nonlinsolve, dsolve, Matrix, diag
 
 def creates(lists):
     '''
@@ -615,23 +622,8 @@ def linsolve_it(system,solve_for,result_type='list'):
         solution_dict = dict(zip(solve_for,solution_list))
         return solution_dict
     
-def creates_matrix(the_list, rows, cols):
-    '''
-    I use this function to create a matrix
-    from a list of variables.
-    The variable list should has the same
-    number of rows*cols so that
-    I can reshape it into a matrix dim(rows,cols)
-    '''
-    mat = zeros(rows,cols)
-    if rows*cols == len(the_list):
-        #for variable in the_list:
-        for row in range(rows):
-            for col in range(cols):
-                #print(col+row*cols)
-                mat[row,col] = the_list[col + row*cols]
-    return mat
-
+   
+    
 def nonlinsolve_it(system,solve_for,result_type = 'list'):
     '''
     To solve nonlinear equations use sympy.nonlinsolve(system, variables)
@@ -687,26 +679,254 @@ def dsolve_it(expression, function):
     
     '''
     return dsolve(expression, function)    
-"""
-def integrates(expression):
+
+#  MATRIX  #
+
+def how_to_matrix():
     '''
+    to create 
+    [1 -1]
+    [3  4]
+    [0  2]
+    v = sympy.Matrix([[1, -1],[3,4],[0,2]])
+    
+    A list of elements is always considered a column vector
+    but a list of elements encapsulate with [ ] is always
+    considered as a row vector
+
+    A matrix shape is retrieved by invoking its attribute shape
+    v.shape
+    
+    To access a row or a column:
+    v.row(0)
+    v.co1(1)
+
+    To access an element:
+    v[1,2]
+    v[2,2]
+
+    To delete or insert a row or a column:
+    v.row_del[0]
+    v_insert = v.row_insert(0, sympy.Matrix([[x, x]])
+
+    [x -x]
+    [1 -1]
+    [3  4]
+    [0  2]
+
+    v_insert = v.row_insert(1, sympy.Matrix([[x, x]])
+    [1 -1]           [1 -1]
+      <--[x -x]      [x -x]
+    [3  4]           [3  4]
+    [0  2]           [0  2]
+    
+    To get the basic operation 
+    v+v
+    v-v
+    v**2
+    v**-1 ---> will get the inverse of v
+                if it exist
+    
+    To get the transpose of the
+    matrix
+    v.T
+
+    To constructs the matrix I can use
+    sympy.eye(3) results in a 3x3 identity matrix
+    sympy.zeros(2,3) 
+    sympy.ones(2,3)
+
+    To create a diagonal matrix
+    sympy.diag(1,2,3)
+    [1 0 0]
+    [0 2 0]
+    [0 0 3]
+    
+    The arguments to diag can be either numbers or matrices. 
+    A number is interpreted as a 1×1 matrix. 
+    The matrices are stacked diagonally. 
+    The remaining elements are filled with 0s.
+    
+    diag(-1, ones(2, 2), Matrix([5, 7, 5]))
+     ⎡-1  0  0  0⎤ sympy.diag(-1)
+     ⎢           ⎥
+     ⎢0   1  1  0⎥ sympy.diag(sympy.ones(2,2)
+     ⎢           ⎥
+     ⎢0   1  1  0⎥
+     ⎢           ⎥
+     ⎢0   0  0  5⎥ sympy.diag(sympy.Matrix([5,7,5])
+     ⎢           ⎥
+     ⎢0   0  0  7⎥
+     ⎢           ⎥
+     ⎣0   0  0  5⎦
+
+
+
+    To find the determinant we use det() method
+    
+    v.det()
+    
+    To get the row echelon form use the rref() method
+    
+    v.rref()
+
+    The result has a reduced row achelon formed matrix,
+    and the second is a tuple of indices of the pivot
+    columns
+
+    To get the nullspace of a matrix use nullspace() method
+    
+    v.nullspace()
+
+    The result has a list of column vectors that span the
+    nullspace of the matrix
+
+    To get the columnspace of a matrix, use columspace() method 
+    
+    v.columnspace()
+
+    The result returns a list of column vectors that span the
+    columnspace of the matrix
+
+    To get the eigenvalues of a matrix use eigenvals method
+    
+    v.eigenvals()
+    
+    The result returns a DICTIONARY of eigenvalues:algebraic multiplicity
+    pairs (similar to the output of roots)
+    
+    To get the eigenvectors use the eigenvects() method.
+
+    v.eigentvects()
+
+    The result returns tuples within a tuples of the form 
+    (eigenvalue,algebraic multiplicity,[eigenvectors])
+    
+    Note that since eigenvects also includes the eigenvalues, 
+    you should use it instead of eigenvals if you also want the 
+    eigenvectors. However, as computing the eigenvectors 
+    may often be costly, eigenvals should be preferred if you 
+    only wish to find the eigenvalues.
+
+    If all you want is the characteristic polynomial, use charpoly. 
+    This is more efficient than eigenvals, because sometimes 
+    symbolic roots can be expensive to calculate.
+
+    To diagonalize a matrix:
+    P,D = v.diagonalize()
+    where
+    P is the matrix to v = P*D*P**-1
+    and D is the diagonalized matrix
     '''
 
-def differentiates(expression):
+def creates_matrix(the_list, rows, cols):
     '''
+    I use this function to create a matrix
+    from a list of variables.
+    The variable list should has the same
+    number of rows*cols so that
+    I can reshape it into a matrix dim(rows,cols)
+    '''
+    #mat = zeros(rows,cols)
+    
+    '''
+    if rows*cols == len(the_list):
+        #for variable in the_list:
+        for row in range(rows):
+            for col in range(cols):
+                #print(col+row*cols)
+                mat[row,col] = the_list[col + row*cols]
+    return mat
     '''
 
-def limits(expression,limit):
     '''
+    A more concise solution is to 
+    use the Matrix class in sympy
     '''
-def solve_diff(expression, respect):
+    return Matrix(rows,cols,the_list)
+ 
+
+def mat_identity(dim):
+    return eye(dim)
+
+def mat_zeros(dim):
+    return zeros(dim)
+
+def mat_ones(dim):
+    return ones(dim)
+
+def mat_diagonal(number_list):
     '''
+    This function creates a square matrix.
+    number_list argument is a list.
+    To strip down a tuples
+    or a list we use *
+
+    return diag(*number_list)
+
+    Matrix classes can also take in lambda function
+    
+    return Matrix(3,3, lambda i,j: i+1 if i == j else 0)
+
+    or
+
+    return Matrix(3,3, lambda i,j: number_list[i] if i == j else 0)
     '''
-def eigens(expression):
+    return Matrix(3,3, lambda i,j: number_list[i] if i == j else 0)
+
+def mat_transpose(the_matrix):
     '''
+    This function transpose the
+    matrix
+    
+    '''
+    return the_matrix.T
+
+def mat_determinant(the_matrix):
+    return the_matrix.det()
+
+def mat_row_echelon(the_matrix):
+    '''
+    The result is a reduced achelon formed matrix
+    (matrix,list_of_pivot_cols_indices)
+
+    '''
+    return the_matrix.rref()
+
+def mat_nullspace(the_matrix):
+    '''
+    The result is a list of column vectors that
+    span the nullspace of the matrix
+    '''
+    return the_matrix.nullspace()
+
+def mat_eigenvalues(the_matrix):
+    '''
+    return a dictionary of {values:multiplicity}
+    '''
+    return the_matrix.eigenvals()
+
+def mat_eigenvectors(the_matrix):
+    '''
+    return tuples of the form
+    (eigen_values,algebraic_multiplicity, eigenvectors)
+    '''
+    return the_matrix.eigenvects()
+
+def mat_diagonalize(the_matrix):
+    return the_matrix.diagonalize()
+
+def mat_inverse(the_matrix,the_method=None):
+    '''
+    By default the inverse matrix
+    is found using Gaussian elimination
+    method (for dense matrix)
+    We can specify LU method as well
     '''
 
-def solves(expression, root):
-    '''
-    '''
-"""
+    if the_method == None:
+        return the_matrix.inv()
+    elif the_method.upper() == 'LU':
+        return the_matrix.inv(method = the_method.upper())
+    else:
+        print("The method {}, is unknown".format(the_method))
