@@ -3,26 +3,25 @@ This module contains numpy's
 classes to do numerical methods
 
 TODO:
-    -numerical comparison --- find a way to
+    [x] numerical comparison --- find a way to
     construct a truth table that can be access
-    using index
+    using index 
+        [solution] This usually comes with QUESTIONS 
+        np functions (all, any, nonzero, where)
+        the output(in tuples) is not scriptable.
 
+        However we need to np.transpose(the_output)
+        so that the tuples become indexable
+        the first column would be the row values
+    [ ] Look into structured array: Using string
+        in array indexing (structured datatype)
+    [ ] Linear Algebra
+    [ ] Prob. and statistic
 10/12/2018
-Stop at column_stack10/12/2018
-Stop at column_stack10/12/2018
-Stop at column_stack10/12/2018
-Stop at column_stack10/12/2018
-Stop at column_stack10/12/2018
-Stop at column_stack10/12/2018
-Stop at column_stack10/12/2018
-Stop at column_stack10/12/2018
-Stop at column_stack10/12/2018
-Stop at column_stack10/12/2018
-Stop at column_stack10/12/2018
-Stop at column_stack
+Stop at Linear Algebra
 
 '''
-from numpy import array, arange, linspace, sin, hstack,vstack
+from numpy import array, arange, linspace, sin, hstack,vstack, transpose, where
 
 def reshape_it(the_array,dimensions):
     '''
@@ -32,6 +31,11 @@ def reshape_it(the_array,dimensions):
     the_array is a numpy array object
     dimension_spec is a list containing
     the shape of the array
+
+    to do
+    a= a.reshape(row,col)
+    we can also do this:
+    a.shape = (row,col)
     '''
     size = 1
     #find if dimension given is valid
@@ -98,7 +102,7 @@ def array_resize(an_array,row,col):
     '''
     an_array.resize(row,col)
 
-def numerical_comparison(the_array,compare,this_number):
+def numerical_comparison(the_array,compare,this_number,output_type='index'):
     '''
     Comparison with a numpy object
     is
@@ -107,19 +111,52 @@ def numerical_comparison(the_array,compare,this_number):
     array <= a_number
     array >= a_number
     array == a_number
-
-    The function would return an array of
-    the same dimension
-    '''
     
-    if compare == '<':
-        return the_array < this_number
-    if compare == '>':
-        return the_array > this_number
-    if compare == '<=':
-        return the_array <= this_number
-    if compare == '>=':
-        return the_array >= this_number
+    The function would return an array of
+    the form [ [row,col] ] ... of the
+    location where the condition is true
+    
+    a_zero
+    array([[0., 1., 0.],
+           [0., 1., 0.],
+           [0., 0., 1.]])
+
+    indices3 = np.transpose(np.where(a_zero == 1))
+    
+    indices3
+    array([[0, 1],
+           [1, 1],
+           [2, 2]])
+
+    '''
+    if output_type == 'index':
+        if compare == '<':
+            return np.transpose(np.where(the_array < this_number))
+        if compare == '>':
+            return np.transpose(np.where(the_array > this_number))
+        if compare == '<=':
+            return np.transpose(np.where(the_array <= this_number))
+        if compare == '>=':
+            return np.transpose(np.where(the_array >= this_number))
+        if compare == '==':
+            return np.transpose(np.where(the_array == this_number))
+        if compare == '!=':
+            return np.transpose(np.where(the_array != this_number))
+
+    else:
+        if compare == '<':
+            return the_array < this_number
+        if compare == '>':
+            return the_array > this_number
+        if compare == '<=':
+            return the_array <= this_number
+        if compare == '>=':
+            return the_array >= this_number
+	if compare == '==':
+            return the_array == this_number
+        if compare == '!=':
+            return the_array != this_number
+
 
 def basic_operation():
     '''
@@ -238,6 +275,24 @@ def array_slicing():
 
     '''
 def stacking_arrays(a,b,direction):
+    '''
+    stacking can be done using np.hstack,np.vstack
+    or using np.column_stack.
+
+    The arrays must be encapsulated with a ()
+    np.column_stack((a,b))
+
+    The np.newaxis can be use to turn
+    a one dimensional array 
+    one_dim = np.array([1,2,3]) which has (3,) shape
+    into a two dimensional array
+    one_dim[:,np.newaxis]
+
+    np.concatenate can also be used to stack arrays
+    however I must specify the direction using axis
+    flag. If axis = None is specify, the concatenation will
+    resolve into a 1D array
+    '''
     if direction == 'horizontal':
         if a.shape[0] == b.shape[0]:
             return hstack((a,b))
@@ -248,4 +303,71 @@ def stacking_arrays(a,b,direction):
             return vstack((a,b))
         else:
             print("The column does not match")
+
+def shallow_copy():
+    '''
+    Different array objects can share 
+    the same data. The view method creates
+    a new array object that looks at 
+    the same data
+
+    c = a.view()
+    
+    c.flags.owndata
+        ---> False
+    c.base is a
+        ---> True
+    
+    The shape of c is independent of a and vice versa
+    However, even after the shape of c changes, the assignment
+    of values in c will change the corresponding
+    value in a.
+
+    shallow copy also applies to slicing using
+    the operator ':'
+
+
+    '''
+
+def deep_copy():
+    '''
+    deep copy is severed any interaction between
+    the original array and the copy array
+
+    Changes in on will not affects the other.
+    '''
+
+def numpy_functions():
+    '''
+    ARRAY CREATION
+    arange, array, copy, empty, empty_like, eye, fromfile, 
+    fromfunction, identity, linspace, logspace, mgrid, 
+    ogrid, ones, ones_like, r, zeros, zeros_like
+        
+    CONVERSION
+    ndarray.astype, atleast_1d, atleast_2d, atleast_3d, mat
+    
+    MANIPULATION
+    array_split, column_stack, concatenate, diagonal, dsplit, 
+    dstack, hsplit, hstack, ndarray.item, newaxis, ravel, 
+    repeat, reshape, resize, squeeze, swapaxes, take, 
+    transpose, vsplit, vstack
+    
+    QUESTION
+    all, any, nonzero, where
+    
+    ORDERING
+    argmax, argmin, argsort, max, min, ptp, searchsorted, sort
+                        
+    OPERATION
+    choose, compress, cumprod, cumsum, inner, 
+    ndarray.fill, imag, prod, put, putmask, 
+    real, sum
+      
+    BASIC STATISTICS
+    cov, mean, std, var
+    
+    BASIC LINEAR ALGEBRA
+    cross, dot, outer, linalg.svd, vdot 
+    '''
 
