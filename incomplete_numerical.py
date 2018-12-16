@@ -152,7 +152,7 @@ def numerical_comparison(the_array,compare,this_number,output_type='index'):
             return the_array <= this_number
         if compare == '>=':
             return the_array >= this_number
-	if compare == '==':
+        if compare == '==':
             return the_array == this_number
         if compare == '!=':
             return the_array != this_number
