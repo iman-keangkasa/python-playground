@@ -29,7 +29,7 @@ Data streaming from Kinect:
 import freenect, cv2
 import numpy as np
 import sympy as sym
-from kinect test import *
+from kinect_test import *
 from calibkinect import depth2xyzuv
 
 
@@ -60,12 +60,13 @@ def cv_visual():
         #get a frame from depth sensor
         depth = get_depth()
         #display RGB image
-        cv2.imshow('RGB image',frame)
+        cv3.imshow('RGB image',frame)
         #display depth image
         cv2.imshow('Depth image',depth)
 
         # quit program when 'esc' key is pressed
-        k = cv2.waitKey(5) & 0xFF        if k == 27:
+        k = cv2.waitKey(5) & 0xFF 
+        if k == 27:
             break
     cv2.destroyAllWindows()
 
