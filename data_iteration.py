@@ -29,18 +29,56 @@ Data streaming from Kinect:
 import freenect, cv2
 import numpy as np
 import sympy as sym
+from kinect test import *
 from calibkinect import depth2xyzuv
 
 
 def cv_visual():
     '''
     use kinect_test to show the visual
-    from kinect
+    from kinect_test
+    
+    while 1:
+        #get a frame from RGB camera
+        frame = get_video()
+        #get a frame from depth sensor
+        depth = get_depth()
+        #display RGB image
+        cv2.imshow('RGB image',frame)
+        #display depth image
+        cv2.imshow('Depth image',depth)
+
+        # quit program when 'esc' key is pressed
+        k = cv2.waitKey(5) & 0xFF        if k == 27:
+            break
+    cv2.destroyAllWindows()
     '''
+    
+    while 1:
+        #get a frame from RGB camera
+        frame = get_video()
+        #get a frame from depth sensor
+        depth = get_depth()
+        #display RGB image
+        cv2.imshow('RGB image',frame)
+        #display depth image
+        cv2.imshow('Depth image',depth)
+
+        # quit program when 'esc' key is pressed
+        k = cv2.waitKey(5) & 0xFF        if k == 27:
+            break
+    cv2.destroyAllWindows()
+
 def raw_depth():
     '''
     get the raw depth data
     from the kinect using the kinect_test
     '''
+    return get_depth()
+
 def point_cloud():
+    '''
+    turn depth into raw data
+    '''
+    return depth2xyzuv(get_depth())
     
