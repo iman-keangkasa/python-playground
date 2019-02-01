@@ -29,7 +29,7 @@ Data streaming from Kinect:
 import freenect, cv2
 import numpy as np
 import sympy as sym
-from kinect test import *
+from kinect_test import *
 from calibkinect import depth2xyzuv
 
 
@@ -65,7 +65,8 @@ def cv_visual():
         cv2.imshow('Depth image',depth)
 
         # quit program when 'esc' key is pressed
-        k = cv2.waitKey(5) & 0xFF        if k == 27:
+        k = cv2.waitKey(5) & 0xFF
+        if k == 27:
             break
     cv2.destroyAllWindows()
 
@@ -80,5 +81,15 @@ def point_cloud():
     '''
     turn depth into raw data
     '''
-    return depth2xyzuv(get_depth())
-    
+    return depth2xyzuv(freenect.sync_get_depth()[0])
+
+#attempting visualization
+from mayavi import mlab
+
+def point_cloud_visual():
+    '''
+    Attempting visualization using mlab. just a screenshot [1 Feb 2019]
+    '''
+    xyz, uv = point_cloud()
+    s = mlab.points3d(xyz[:,0],xyz[:,1],xyz[:,2])
+    mlab.show()

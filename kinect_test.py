@@ -13,6 +13,7 @@ def get_video():
 def get_depth():
     array,_ = freenect.sync_get_depth()
     array = array.astype(np.uint8)
+#    array = cv2.normalize(array, dst=None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX)
     return array
  
 if __name__ == "__main__":
