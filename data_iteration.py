@@ -60,12 +60,12 @@ def cv_visual():
         #get a frame from depth sensor
         depth = get_depth()
         #display RGB image
-        cv2.imshow('RGB image',frame)
+        cv3.imshow('RGB image',frame)
         #display depth image
         cv2.imshow('Depth image',depth)
 
         # quit program when 'esc' key is pressed
-        k = cv2.waitKey(5) & 0xFF
+        k = cv2.waitKey(5) & 0xFF 
         if k == 27:
             break
     cv2.destroyAllWindows()
