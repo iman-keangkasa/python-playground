@@ -88,7 +88,7 @@ def point_cloud():
 #RAW POINT CLOUDS
 from mayavi import mlab
 import pptk
-
+import octomap
 #def point_cloud_visual():
 #    '''
 #    Attempting visualization using mlab. just a screenshot [1 Feb 2019]
@@ -122,3 +122,5 @@ def pptk_reload(v=pptk_point_cloud_visual()):
     '''
     v.clear()
     v.load(point_cloud()[0])
+
+
