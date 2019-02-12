@@ -31,7 +31,7 @@ import numpy as np
 import sympy as sym
 #from kinect_test import *
 from calibkinect import depth2xyzuv
-from mayavi import mlab
+#from mayavi import mlab
 import pptk
 
 
@@ -98,7 +98,7 @@ def point_cloud():
 #    s = mlab.points3d(xyz[:,0],xyz[:,1],xyz[:,2])
 #    mlab.show()
 
-def pptk_point_cloud_visual(reload=False):
+def pptk_point_cloud_visual():
     '''
     Using PPTK package to visualize
     point cloud directly
@@ -108,13 +108,11 @@ def pptk_point_cloud_visual(reload=False):
     
     To reload, set argument reload=True
     '''
-    if reload:
-        xyz, uv = point_cloud()
-        v.load(xyz)
-    else:
-        xyz, uv = point_cloud()
-        v = pptk.viewer(xyz)
+
+    xyz, uv = point_cloud()
+    v = pptk.viewer(xyz)
     return v
+
 def pptk_reload(v=pptk_point_cloud_visual()):
     '''
     Reload the point cloud
@@ -123,4 +121,23 @@ def pptk_reload(v=pptk_point_cloud_visual()):
     v.clear()
     v.load(point_cloud()[0])
 
+def kinect_shutdown():
+    freenect.stop_sync()
 
+
+if __name__ == "__main__":
+
+
+#   main()
+#   pptk_point_cloud_visual()
+#   
+#   more codes here
+#   try:   
+#       while True:
+#           
+#           pptk_reload()
+#   except KeyboardInterrupt:
+#       break
+#   kinect_shutdown()
+#
+#
