@@ -28,7 +28,7 @@ Data streaming from Kinect:
 '''
 import freenect, cv2
 import numpy as np
-import sympy as sym
+#import sympy as sym
 #from kinect_test import *
 from calibkinect import depth2xyzuv
 #from mayavi import mlab
@@ -129,9 +129,6 @@ if __name__ == "__main__":
     
     print("Testing")
     v=pptk_point_cloud_visual()
-#      
-#   more codes here
-#   
     try:   
         while True:
             v.clear()

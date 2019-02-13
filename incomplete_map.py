@@ -2,8 +2,10 @@
 This class model the
 map of the environment using 
 [ ] voxelization method
-[ ] probabilistic method based
-    on Bayes' theorem
+[ ] The map ascertain the
+    dynamic elements and the
+    static elements in it
+[ ] Map registration 
 '''
 def find_static_element():
     '''
@@ -42,7 +44,11 @@ def find_robot_occupancy():
     '''
     Find the occupancy of
     the robot in the map
+    
+    [ ] Use marker?
+    [ ] without marker?
     '''
+    
 
 def __stage__():
     '''
