@@ -1,3 +1,4 @@
+# coding=utf-8
 '''
 This module explains how to use
 symbolic variables and the symbolic 

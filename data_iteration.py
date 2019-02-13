@@ -29,57 +29,113 @@ Data streaming from Kinect:
 import freenect, cv2
 import numpy as np
 import sympy as sym
-from kinect_test import *
+#from kinect_test import *
 from calibkinect import depth2xyzuv
+#from mayavi import mlab
+import pptk
 
 
-def cv_visual():
-    '''
-    use kinect_test to show the visual
-    from kinect_test
-    
-    while 1:
-        #get a frame from RGB camera
-        frame = get_video()
-        #get a frame from depth sensor
-        depth = get_depth()
-        #display RGB image
-        cv2.imshow('RGB image',frame)
-        #display depth image
-        cv2.imshow('Depth image',depth)
-
-        # quit program when 'esc' key is pressed
-        k = cv2.waitKey(5) & 0xFF        if k == 27:
-            break
-    cv2.destroyAllWindows()
-    '''
-    
-    while 1:
-        #get a frame from RGB camera
-        frame = get_video()
-        #get a frame from depth sensor
-        depth = get_depth()
-        #display RGB image
-        cv3.imshow('RGB image',frame)
-        #display depth image
-        cv2.imshow('Depth image',depth)
-
-        # quit program when 'esc' key is pressed
-        k = cv2.waitKey(5) & 0xFF 
-        if k == 27:
-            break
-    cv2.destroyAllWindows()
-
-def raw_depth():
-    '''
-    get the raw depth data
-    from the kinect using the kinect_test
-    '''
-    return get_depth()
+#def cv_visual():
+#    '''
+#    use kinect_test to show the visual
+#    from kinect_test
+#    
+#    while 1:
+#        #get a frame from RGB camera
+#        frame = get_video()
+#        #get a frame from depth sensor
+#        depth = get_depth()
+#        #display RGB image
+#        cv2.imshow('RGB image',frame)
+#        #display depth image
+#        cv2.imshow('Depth image',depth)
+#
+#        # quit program when 'esc' key is pressed
+#        k = cv2.waitKey(5) & 0xFF        if k == 27:
+#            break
+#    cv2.destroyAllWindows()
+#    '''
+#    
+#    while 1:
+#        #get a frame from RGB camera
+#        frame = get_video()
+#        #get a frame from depth sensor
+#        depth = get_depth()
+#        #display RGB image
+#        cv3.imshow('RGB image',frame)
+#        #display depth image
+#        cv2.imshow('Depth image',depth)
+#
+#        # quit program when 'esc' key is pressed
+#        k = cv2.waitKey(5) & 0xFF 
+#        if k == 27:
+#            break
+#    cv2.destroyAllWindows()
+#
+#def raw_depth():
+#    '''
+#    get the raw depth data
+#    from the kinect using the kinect_test
+#    '''
+#    return get_depth()
 
 def point_cloud():
     '''
     turn depth into raw data
     '''
-    return depth2xyzuv(get_depth())
+    return depth2xyzuv(freenect.sync_get_depth()[0])
+
+#attempting visualization FAIL
+#DO NOT USE mlab DIRECTLY WITH
+#RAW POINT CLOUDS
+
+#def point_cloud_visual():
+#    '''
+#    Attempting visualization using mlab. just a screenshot [1 Feb 2019]
+#    DO NOT USE THIS METHOD
+#    '''
+#    xyz, uv = point_cloud()
+#    s = mlab.points3d(xyz[:,0],xyz[:,1],xyz[:,2])
+#    mlab.show()
+
+def pptk_point_cloud_visual():
+    '''
+    Using PPTK package to visualize
+    point cloud directly
     
+    use pptk.load(xyz) to reload the 
+    viewer with new set of point cloud
+    
+    To reload, set argument reload=True
+    '''
+
+    xyz, uv = point_cloud()
+    v = pptk.viewer(xyz)
+    return v
+
+def pptk_reload(v):
+    '''
+    Reload the point cloud
+    in a pptk viewer
+    '''
+    v.clear()
+    v.load(point_cloud()[0])
+
+def kinect_shutdown():
+    freenect.sync_stop()
+
+
+if __name__ == "__main__":
+    
+    print("Testing")
+    v=pptk_point_cloud_visual()
+#      
+#   more codes here
+#   
+    try:   
+        while True:
+            v.clear()
+            v.load(point_cloud()[0])
+    except KeyboardInterrupt:
+        kinect_shutdown()
+        print("Streaming stops")
