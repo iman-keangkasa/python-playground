@@ -113,7 +113,7 @@ def pptk_point_cloud_visual():
     v = pptk.viewer(xyz)
     return v
 
-def pptk_reload(v=pptk_point_cloud_visual()):
+def pptk_reload(v):
     '''
     Reload the point cloud
     in a pptk viewer
@@ -122,22 +122,20 @@ def pptk_reload(v=pptk_point_cloud_visual()):
     v.load(point_cloud()[0])
 
 def kinect_shutdown():
-    freenect.stop_sync()
+    freenect.sync_stop()
 
 
 if __name__ == "__main__":
-
-
-#   main()
-#   pptk_point_cloud_visual()
-#   
+    
+    print("Testing")
+    v=pptk_point_cloud_visual()
+#      
 #   more codes here
-#   try:   
-#       while True:
-#           
-#           pptk_reload()
-#   except KeyboardInterrupt:
-#       break
-#   kinect_shutdown()
-#
-#
+#   
+    try:   
+        while True:
+            v.clear()
+            v.load(point_cloud()[0])
+    except KeyboardInterrupt:
+        kinect_shutdown()
+        print("Streaming stops")
